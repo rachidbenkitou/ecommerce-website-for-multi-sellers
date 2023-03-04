@@ -2,5 +2,7 @@ package com.ecommerce.client;
 
 import com.ecommerce.user.User;
 
-public class Client extends User {
+import java.io.Serializable;
+
+public class Client extends User implements Serializable {
 }

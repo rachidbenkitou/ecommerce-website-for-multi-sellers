@@ -2,5 +2,8 @@ package com.ecommerce.supplier;
 
 import com.ecommerce.user.User;
 
-public class Supplier extends User {
+import java.io.Serializable;
+
+public class Supplier extends User implements Serializable {
+
 }
