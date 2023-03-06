@@ -28,7 +28,7 @@ public class EcommerceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(userRepository.findAll().isEmpty()){
+        /*if(userRepository.findAll().isEmpty()){
 
             userRepository.save(new User("B123","Youssef","el mahdoubi","abdlkbir@gmail.com","admin","oulad teima"));
         }
@@ -38,6 +38,6 @@ public class EcommerceApplication implements CommandLineRunner {
         }
         for(Client client: clientRepository.findAll()){
             System.out.println(client);
-        }
+        }*/
     }
 }
