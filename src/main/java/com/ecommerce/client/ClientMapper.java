@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+
 public interface ClientMapper {
 
     Client dtoToModel(ClientDto clientDto);
