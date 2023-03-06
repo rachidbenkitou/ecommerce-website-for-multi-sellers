@@ -47,7 +47,7 @@ public class ClientServiceImplement implements  ClientService{
     @Override
     public ClientDto saveClient(ClientDto clientDto) throws ClientAlreadyExistsException {
 
-        Optional<Client> existingClient = clientRepository.findByUsername(clientDto.getUsername());
+        Optional<Client> existingClient = clientRepository.findById(clientDto.getId());
         if(existingClient.isPresent()) throw new ClientAlreadyExistsException("Client Already Exists");
 
         return addClient(clientDto);
@@ -62,4 +62,5 @@ public class ClientServiceImplement implements  ClientService{
         clientRepository.findById(id).orElseThrow(()->new ClientNotFoundException("client not found"));
         clientRepository.deleteById(id);
     }
+
 }

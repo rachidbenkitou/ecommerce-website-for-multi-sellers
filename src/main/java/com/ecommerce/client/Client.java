@@ -17,3 +17,4 @@ public class Client extends User implements Serializable {
     @Column(unique = true)
    private String username;
 }
+

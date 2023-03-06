@@ -1,3 +1,4 @@
+
 package com.ecommerce.client.exceptions;
 
 import com.ecommerce.shared.ApiBasedException;
