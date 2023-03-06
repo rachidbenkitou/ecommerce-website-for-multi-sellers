@@ -10,7 +10,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import java.io.Serializable;
 @Data
+<<<<<<< HEAD
 @Document
+=======
+@AllArgsConstructor
+@NoArgsConstructor
+>>>>>>> 4fd60159d56d751dc9c3219729c6aec6c20f7c09
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @AllArgsConstructor
 @NoArgsConstructor
