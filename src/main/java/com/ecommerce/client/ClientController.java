@@ -22,7 +22,7 @@ public class ClientController {
         return clientService.findAllClient();
     }
 
-     @GetMapping("/findByName/{firstName}")
+     @GetMapping("/find/{name}")
     public List<ClientDto> getClient(@PathVariable String firstName) throws ClientNotFoundException {
         return clientService.findClientByNom(firstName);
     }

@@ -8,6 +8,7 @@ import com.ecommerce.client.ClientMapper;
 import com.ecommerce.client.ClientRepository;
 import com.ecommerce.client.exceptions.ClientAlreadyExistsException;
 import com.ecommerce.client.exceptions.ClientNotFoundException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@Slf4j
+@AllArgsConstructor
 public class ClientServiceImplement implements  ClientService{
 
-    @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private ClientMapper clientMapper;
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
     @Override
     public List<ClientDto> findAllClient(){
@@ -47,8 +46,10 @@ public class ClientServiceImplement implements  ClientService{
     }
     @Override
     public ClientDto saveClient(ClientDto clientDto) throws ClientAlreadyExistsException {
-        Optional<Client> existingClient = clientRepository.findById(clientDto.getId());
+
+        Optional<Client> existingClient = clientRepository.findByUsername(clientDto.getUsername());
         if(existingClient.isPresent()) throw new ClientAlreadyExistsException("Client Already Exists");
+
         return addClient(clientDto);
     }
     @Override
