@@ -2,22 +2,18 @@ package com.ecommerce.client;
 
 
 import com.ecommerce.user.User;
-
 import lombok.AllArgsConstructor;
-import lombok.ToString;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
+import javax.persistence.Column;
+import java.io.Serializable;
 
 
 @Document
-@ToString
-public class Client extends User {
-
-    @Autowired
-    public Client(String id, String firstName, String lastName, String email, String password, String city) {
-        super(id, firstName, lastName, email, password, city);
-    }
+@Data
+@AllArgsConstructor
+public class Client extends User implements Serializable {
+    @Column(unique = true)
+    private String username;
 }

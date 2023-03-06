@@ -10,7 +10,7 @@ public interface ClientService {
 
     List<ClientDto> findAllClient();
 
-    ClientDto findClientByNom(String id) throws ClientNotFoundException;
+    List<ClientDto> findClientByNom(String id) throws ClientNotFoundException;
 
     ClientDto saveClient(ClientDto clientDto) throws ClientAlreadyExistsException;
 

@@ -16,20 +16,14 @@ import java.io.Serializable;
 @Document
 @Data
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User implements Serializable {
     @Id
     private String id;
-    @Field
     private String firstName;
-    @Field
     private String lastName;
-    @Field
     private String email;
-    @Field
     private String password;
-    @Field
     private String city;
-
 }

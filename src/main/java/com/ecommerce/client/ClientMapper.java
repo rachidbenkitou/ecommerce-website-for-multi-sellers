@@ -10,5 +10,6 @@ public interface ClientMapper {
     Client dtoToModel(ClientDto clientDto);
 
     ClientDto modelToDto(Client client);
+
     List<ClientDto> modelToDtos(List<Client> clients);
 }
