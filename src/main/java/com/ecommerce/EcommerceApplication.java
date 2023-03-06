@@ -30,15 +30,18 @@ public class EcommerceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        clientRepository.save(new Client("B123","Youssef","el mahdoubi","abdlkbir@gmail.com","admin","oulad teima"));
-        supplierRepository.save(new Supplier("C123","Youssef","el mahdoubi","abdlkbir@gmail.com","admin","oulad teima"));
+
+
+        /*if(userRepository.findAll().isEmpty()){
+
+            userRepository.save(new User("B123","Youssef","el mahdoubi","abdlkbir@gmail.com","admin","oulad teima"));
+        }
+        clientRepository.save(new Client("Z542","Client"));
+        for(User user: userRepository.findAll()){
+            System.out.println(user);
+        }
         for(Client client: clientRepository.findAll()){
-            System.out.println(client.toString());
-        }
-        for(Supplier supplier: supplierRepository.findAll()){
-            System.out.println(supplier.toString());
-        }
-
-
+            System.out.println(client);
+        }*/
     }
 }
