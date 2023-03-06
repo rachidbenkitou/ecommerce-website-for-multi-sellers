@@ -33,9 +33,12 @@ public class ClientServiceImplement implements  ClientService{
     }
 
     @Override
-    public ClientDto findClientByNom(String id)throws ClientNotFoundException{
-        Client client = clientRepository.findById(id).orElseThrow(()-> new ClientNotFoundException("Client Note Found"));
-        return clientMapper.modelToDto(client);
+    public List<ClientDto> findClientByNom(String firstName)throws ClientNotFoundException{
+        /*Optional<Client> client=Optional.ofNullable(clientRepository.findByFirstName(nom));
+        if(!client.isPresent())
+            throw new ClientNotFoundException("No client found");*/
+        List<Client> clients = clientRepository.findByFirstName(firstName);
+        return clientMapper.modelToDtos(clients);
     }
     private ClientDto addClient(ClientDto clientDto){
         Client client = clientMapper.dtoToModel(clientDto);

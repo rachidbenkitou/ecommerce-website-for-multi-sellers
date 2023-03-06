@@ -14,10 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 @ToString
+@AllArgsConstructor
 public class Client extends User {
 
-    @Autowired
-    public Client(String id, String firstName, String lastName, String email, String password, String city) {
-        super(id, firstName, lastName, email, password, city);
-    }
 }
