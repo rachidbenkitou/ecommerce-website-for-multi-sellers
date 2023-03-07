@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public List<CategoryDto> getCategoriesByName(String categoryName) {
         // Retrieve all categories by name from the database as a list.
-        List<Category> categories=categoryRepository.findCategoriesByCategoryName(categoryName);
+        List<Category> categories=categoryRepository.findCategoriesByCategoryNameLikeIgnoreCase(categoryName);
         // Convert the list of Category objects to a list of CategoryDto objects and return it.
         return categoryMapper.modelToDtos(categories);
     }
