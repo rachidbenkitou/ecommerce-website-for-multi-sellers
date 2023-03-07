@@ -1,0 +1,15 @@
+package com.ecommerce.order;
+
+import com.ecommerce.category.CategoryDto;
+import com.ecommerce.subCategory.SubCategoryDto;
+import com.ecommerce.subCategory.SubCatgeory;
+import org.mapstruct.Mapper;
+
+import java.util.List;
+@Mapper(componentModel = "spring")
+public interface OrderMapper {
+
+    OrderDto modelToDto(Order order);
+    List<OrderDto> modelToDtos(List<Order> orderList);
+    Order dtoToModel(OrderDto orderDto);
+}
