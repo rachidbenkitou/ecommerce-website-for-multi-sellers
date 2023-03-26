@@ -3,6 +3,9 @@ package com.ecommerce.Property.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
 
 import com.ecommerce.Product.Product;
 import com.ecommerce.Product.ProductRepository;
@@ -14,6 +17,8 @@ import com.ecommerce.Property.PropertyMapper;
 import com.ecommerce.Property.PropertyRepository;
 import com.ecommerce.Property.PropertyRequest;
 
+@Service
+@Transactional
 public class PropertyServiceImp implements PropertyService {
 
 	private ProductRepository productRepository;

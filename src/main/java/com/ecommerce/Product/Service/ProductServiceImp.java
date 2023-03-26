@@ -2,24 +2,40 @@ package com.ecommerce.Product.Service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.ecommerce.Product.Product;
 import com.ecommerce.Product.ProductDto;
 import com.ecommerce.Product.ProductMapper;
 import com.ecommerce.Product.ProductRepository;
 import com.ecommerce.subCategory.SubCategoryRepository;
 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+@Transactional
 public class ProductServiceImp implements ProductService {
 
 	private ProductRepository productRepository;
 	private ProductMapper productMapper;
 	private SubCategoryRepository categoryRepository;
-	
+	/**
+	 * Add Product to database
+	 * @param ProductDto Product information using for add Product
+	 * @return Product saving in database
+	 */
 	@Override
 	public Product AddProduct(ProductDto productDto) {
 	  Product product=productMapper.dtoToProduct(productDto);
 		return productRepository.save(product);
 	}
-
+	/**
+	 * delete Product from database by id
+	 * @param idProduct id unique for Product that well delete  
+	 */
 	@Override
 	public void deleteProduct(Long idProduct) {
 	
@@ -27,6 +43,13 @@ public class ProductServiceImp implements ProductService {
 		
 	}
 
+	/**
+	 * discount a quantity from product
+	 * @param idProduct id unique for product
+	 * @param Quantityseller quantity discount from origin Quantity Product
+	 * @throws RuntimeException if origin Quantity Product less than Quantity discount
+	 * @return new Product 
+	 */
 	@Override
 	public Product sellerProduct(Long idProduct, Integer Quantityseller) {
 		Product product=productRepository.findById(idProduct).orElseThrow(()->new RuntimeException("not found")); 
