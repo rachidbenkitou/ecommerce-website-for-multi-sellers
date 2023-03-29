@@ -4,6 +4,7 @@ import com.ecommerce.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
 
@@ -13,5 +14,6 @@ import java.io.Serializable;
 public class SubCategoryDto implements Serializable {
     private String subCategoryId;
     private String subCategoryName;
+    @DBRef
     private Category category;
 }
