@@ -1,6 +1,5 @@
 package com.ecommerce.subCategory.service;
 
-import com.ecommerce.category.exception.NoCategoryFoundException;
 import com.ecommerce.subCategory.SubCategory;
 import com.ecommerce.subCategory.SubCategoryDto;
 import com.ecommerce.subCategory.SubCategoryMapper;
@@ -62,6 +61,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
             throw new SubCategoryAlreadyExistException(String.format("The subCategory %s is already  exists.", subCategoryDto.getSubCategoryName()));
         return savedSubCategory(subCategoryDto);
     }
+
     /**
      * Update a subCategory in the database.
      *
@@ -83,10 +83,11 @@ public class SubCategoryServiceImpl implements SubCategoryService{
      * @param subCategoryName The name of subCategory that we will check if exists in the database.
      * @return If the subCategory exists, the function returns true, if not, it returns false.
      */
-    private boolean isSubCategoryExist(String subCategoryName){
+    public boolean isSubCategoryExist(String subCategoryName){
+        boolean resp=false;
         boolean isExistSubCategory=subCategoryRepository.existsBySubCategoryName(subCategoryName);
-        if(isExistSubCategory) return true;
-        else return false;
+        if(isExistSubCategory) resp=true;
+        return resp;
     }
     /**
      * save a subCategory in the database.

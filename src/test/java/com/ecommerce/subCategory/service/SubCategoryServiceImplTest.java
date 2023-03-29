@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.mongodb.assertions.Assertions.assertFalse;
+import static com.mongodb.internal.connection.tlschannel.util.Util.assertTrue;
 import static org.mockito.Mockito.*;
 
 
@@ -98,16 +100,23 @@ class SubCategoryServiceImplTest {
 
     @Test
     void shouldSavesubSubCategory() {
-        when(subCategoryRepository.save(Mockito.any(SubCategory.class))).thenReturn(subCategory1);
-        when(subCategoryMapper.modelToDto(subCategory1)).thenReturn(subCategoryDto1);
+        when(subCategoryRepository.existsBySubCategoryName(subCategoryDto1.getSubCategoryName())).thenReturn(false);
         when(subCategoryMapper.dtoToModel(subCategoryDto1)).thenReturn(subCategory1);
+        when(subCategoryMapper.modelToDto(subCategory1)).thenReturn(subCategoryDto1);
+        when(subCategoryRepository.save(Mockito.any(SubCategory.class))).thenReturn(subCategory1);
 
 
-        SubCategoryDto savedsubSubCategory = subCategoryService.savedSubCategory(subCategoryDto1);
+        SubCategoryDto savedSubCategory = subCategoryService.saveSubCategory(subCategoryDto1);
 
-        Assertions.assertThat(savedsubSubCategory).isNotNull();
-        Assertions.assertThat(savedsubSubCategory.getSubCategoryName()).isEqualTo(subCategoryDto1.getSubCategoryName());
-        Assertions.assertThat(savedsubSubCategory.getSubCategoryId()).isEqualTo(subCategoryDto1.getSubCategoryId());
+        Assertions.assertThat(savedSubCategory).isNotNull();
+        Assertions.assertThat(savedSubCategory.getSubCategoryName()).isEqualTo(subCategoryDto1.getSubCategoryName());
+        Assertions.assertThat(savedSubCategory.getSubCategoryId()).isEqualTo(subCategoryDto1.getSubCategoryId());
+
+        // Test
+        boolean result = subCategoryService.isSubCategoryExist(savedSubCategory.getSubCategoryName());
+
+        // Verify
+        assertFalse(result);
     }
 
     @Test
@@ -137,7 +146,7 @@ class SubCategoryServiceImplTest {
     }
 
     @Test
-    void shouldDeleteProductByName() {
+    void shouldDeleteSubCategoryByName() {
 
         // Arrange
         String subCategory1Name="Book1";
