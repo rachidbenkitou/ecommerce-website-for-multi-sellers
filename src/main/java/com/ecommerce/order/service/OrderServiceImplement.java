@@ -6,9 +6,11 @@ import com.ecommerce.order.OrderDto;
 import com.ecommerce.order.OrderMapper;
 import com.ecommerce.order.OrderRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 @AllArgsConstructor
+@Service
 public class OrderServiceImplement implements OrderService{
     private OrderRepository orderRepository;
     private OrderMapper orderMapper;

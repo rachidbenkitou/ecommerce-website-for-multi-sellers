@@ -1,8 +1,6 @@
 package com.ecommerce.order;
 
-import com.ecommerce.category.CategoryDto;
-import com.ecommerce.subCategory.SubCategoryDto;
-import com.ecommerce.subCategory.SubCatgeory;
+
 import org.mapstruct.Mapper;
 
 import java.util.List;
