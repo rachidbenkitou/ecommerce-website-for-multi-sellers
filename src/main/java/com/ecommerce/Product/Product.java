@@ -1,10 +1,12 @@
 package com.ecommerce.Product;
 
-import java.util.List;
 
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.ecommerce.Property.ProductProperty;
 import com.ecommerce.subCategory.SubCatgeory;
 
 import lombok.AllArgsConstructor;
@@ -18,13 +20,15 @@ import lombok.NoArgsConstructor;
 @Document
 @Builder
 public class Product {
-	
-	private Long productId;
+	@Id
+	private String id;
+	@Indexed(unique=true)
 	private String productName;
 	private Integer productQuantity;
 	private Float prodcutPrice;
-	
+	@DBRef
 	private SubCatgeory subCatgeory;
-	private List<ProductProperty> productPropertyts;
+
+//	private List<ProductProperty> productPropertyts;
 
 }

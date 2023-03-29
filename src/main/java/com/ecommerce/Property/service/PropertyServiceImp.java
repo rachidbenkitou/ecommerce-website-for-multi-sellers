@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.Product.Product;
 import com.ecommerce.Product.ProductRepository;
+import com.ecommerce.Product.exceptions.ProductNotFoundException;
 import com.ecommerce.Property.ProductProperty;
 import com.ecommerce.Property.ProductPropertyRepository;
 import com.ecommerce.Property.Property;
@@ -16,6 +17,9 @@ import com.ecommerce.Property.PropertyDto;
 import com.ecommerce.Property.PropertyMapper;
 import com.ecommerce.Property.PropertyRepository;
 import com.ecommerce.Property.PropertyRequest;
+import com.ecommerce.Property.Exception.ProductNotHaveAnyProperty;
+import com.ecommerce.Property.Exception.ProductNotHaveValueException;
+import com.ecommerce.Property.Exception.PropertyNotFoundException;
 
 @Service
 @Transactional
@@ -43,79 +47,85 @@ public class PropertyServiceImp implements PropertyService {
 	}
 
 	@Override
-	public List<PropertyDto> getPropertysValues(Long idProduct) {
+	public List<PropertyDto> getPropertysAndValues(String nameProduct) {
 		
-		Product product =Product.builder()
-				.productId(idProduct)
-				.build();
+
 		
-		List<ProductProperty> productProperties=productPropertyRepository.findAllByProduct(product).orElseThrow(()->new RuntimeException("this product not has any Property"));
 		
-		return propertyMapper.ProductproperstyToDtos(productProperties);
+		Product product=productRepository.findByProductName(nameProduct).orElseThrow(()->new ProductNotFoundException("product not found"));
+		return propertyMapper.ProductproperstyToDtos(productPropertyRepository.findByProductId(product.getId())
+				.orElseThrow(()-> new ProductNotHaveAnyProperty("Product not have any Property")));
 	}
 
 	@Override
-	public List<String> getPropertsProduct(Long idProdut) {
+	public List<String> getPropertsProduct(String nameProduct) {
 
-		return productRepository.findById(idProdut).
-				orElseThrow(()->new RuntimeException("product not found"))
-				.getProductPropertyts().stream().map((p)->p.getProduct().getProductName())
+		Product product= productRepository.findByProductName(nameProduct)
+				.orElseThrow(()->new ProductNotFoundException("product not found"));
+		return productPropertyRepository.findByProductId(product.getId())
+				.orElseThrow(()-> new ProductNotHaveAnyProperty("Product not have any Property"))
+				.stream().map((p)->p.getProperty().getPropertyName())
 				.toList();
 	}
 
 	@Override
 	public List<String> getValuesProperty(String propertyName) {
-
-		return propertyRepository.findByPropertyName(propertyName).orElse(null)
-				.getProductProperties()
+		Property property= propertyRepository.findByPropertyName(propertyName)
+				.orElseThrow(()->new ProductNotFoundException("product not found"));
+		return productPropertyRepository.findByPropertyPropertyId(property.getPropertyId())
+				.orElseThrow(()-> new ProductNotHaveAnyProperty("Product not have any Property"))
 				.stream().map((p)->p.getValue()).toList();
 	}
 
 	@Override
-	public Property addPropertyToProduct(PropertyRequest propertyRequest) {
+	public List<PropertyDto> addPropertyToProduct(PropertyRequest propertyRequest) {
 		
 		Property property=propertyRepository.findByPropertyName(propertyRequest.nameProperty()).orElse(
 				propertyRepository.save(Property.builder()
 						.propertyName(propertyRequest.nameProperty())
 						.build())
 				);
-				
-				
 		
-		Product product=productRepository.findById(propertyRequest.idProduct()).orElseThrow(()->new RuntimeException("product not found"));
-		for (String value: propertyRequest.values()) {
+		if(!productRepository.existsByProductName(propertyRequest.nameProduct()))throw new ProductNotFoundException("product not found");
+		
+		Product product=productRepository.findByProductName(propertyRequest.nameProduct()).get();
+		
+		return propertyRequest.values().stream().map((v)->{
 			ProductProperty productProperty=ProductProperty.builder()
 					.property(property)
 					.product(product)
-					.value(value)
+					.value(v)
 					.build();
-			property.getProductProperties().add(productProperty);
-		}
-		
-		return propertyRepository.save(property);
+			return propertyMapper.ProductpropertyToDto(productPropertyRepository.save(productProperty));
+		}).toList();
 	}
 
 	@Override
-	public PropertyDto updatePropertyProduct(Long idProductProperty, String newValue) {
-		ProductProperty productProperty=productPropertyRepository.findById(idProductProperty).get();
+	public PropertyDto updatePropertyProduct(String idProductProperty, String newValue) {
+		ProductProperty productProperty=productPropertyRepository.findById(idProductProperty)
+				.orElseThrow(()->new ProductNotHaveValueException("this Product not have this value"));
 		productProperty.setValue(newValue);
 		
 		return propertyMapper.ProductpropertyToDto(productPropertyRepository.save(productProperty));
 	}
 
 	@Override
-	public boolean deletePropertyFromProduct(Short idProperty,  Long idProduct) {
+	public boolean deletePropertyFromProduct(String nameProperty,  String nameProduct) {
 
-		return productPropertyRepository.deleteAllByProductAndProperty(
-				productRepository.findById(idProduct).get(), 
-				propertyRepository.findById(idProperty).get()
+		 productPropertyRepository.deleteByProductAndProperty(
+				productRepository.findByProductName(nameProduct)
+				.orElseThrow(()->new ProductNotFoundException("product not found")), 
+				propertyRepository.findByPropertyName(nameProperty)
+				.orElseThrow(()->new PropertyNotFoundException("property not found"))
+				
 				);
+		 return true;
 	}
 
 	@Override
-	public boolean deleteteValueFromProcutProperty(Long idProductProperty) {
-		// TODO Auto-generated method stub
-		 productPropertyRepository.deleteById(idProductProperty);
+	public boolean deleteteValueFromProcutProperty(String nameProductProperty) {
+		
+		 productPropertyRepository.deleteById(nameProductProperty);
 		 return true;
 	}
 

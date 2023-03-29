@@ -8,12 +8,12 @@ import com.ecommerce.Product.ProductDto;
 public interface ProductService {
 
 	Product AddProduct(ProductDto productDto);
-	void deleteProduct(Long idProduct);
-	Product sellerProduct(Long idProduct,Integer Quantityseller);
-	Product updateProduct(Long idProduct,ProductDto productDto);
+	void deleteProduct(String nameProduct);
+	Product sellerProduct(String nameProduct,Integer Quantityseller);
+	Product updateProduct(ProductDto productDto);
 	
 	List<ProductDto> getProductByCategories(String subCategoryName);
-	ProductDto getProductById(Long idProduct);
+	ProductDto getProductByName(String nameProduct);
 	 
 	
 	

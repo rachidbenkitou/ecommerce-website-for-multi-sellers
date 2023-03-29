@@ -7,8 +7,14 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.ecommerce.Product.Product;
 
-public interface ProductPropertyRepository extends MongoRepository<ProductProperty, Long> {
+public interface ProductPropertyRepository extends MongoRepository<ProductProperty, String> {
 
-	Optional<List<ProductProperty>> findAllByProduct(Product product);
-	boolean deleteAllByProductAndProperty(Product product,Property property);
+
+	Optional<List<ProductProperty>> findByProductId(String idProduct);
+
+	Optional<List<ProductProperty>> findByPropertyPropertyId(String idpropert);
+
+	void deleteByProductAndProperty(Product product,Property property);
+	
+	
 }

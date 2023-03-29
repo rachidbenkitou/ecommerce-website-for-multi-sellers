@@ -1,25 +1,26 @@
 package com.ecommerce.subCategory;
 
-import com.ecommerce.Product.Product;
 import com.ecommerce.category.Category;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.List;
-
+@Builder
 @Data
 @AllArgsConstructor
 @Document
 public class SubCatgeory implements Serializable {
     @Id
-    private String subCategoryId;
-    @Column(unique = true)
+    private String id;
+    @Indexed(unique = true)
     private String subCategoryName;
+    @DBRef
     private Category category;
-    
-    private List<Product> products;
+   
 }
