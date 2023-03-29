@@ -1,9 +1,11 @@
 package com.ecommerce.subCategory.service;
 
+import com.ecommerce.category.exception.NoCategoryFoundException;
 import com.ecommerce.subCategory.SubCategory;
 import com.ecommerce.subCategory.SubCategoryDto;
 import com.ecommerce.subCategory.SubCategoryMapper;
 import com.ecommerce.subCategory.SubCategoryRepository;
+import com.ecommerce.subCategory.exception.NoSubCategoryFoundException;
 import com.ecommerce.subCategory.exception.SubCategoryAlreadyExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         // Retrieve all subCategories from the database as a list.
         List<SubCategory> subCategories=subCategoryRepository.findAll();
         // Convert the list of SubCategory objects to a list of SubCategoryDto objects and return it.
+        if (subCategories.isEmpty()) throw  new NoSubCategoryFoundException("SubCategory list is empty");
         return subCategoryMapper.modelToDtos(subCategories);
     }
 
@@ -41,6 +44,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         // Retrieve all subCategories by name from the database as a list.
         List<SubCategory> subCategories=subCategoryRepository.findSubCategoriesBySubCategoryNameLikeIgnoreCase(subCategoryName);
         // Convert the list of SubCategory objects to a list of SubCategoryDto objects and return it.
+        if (subCategories.isEmpty()) throw  new NoSubCategoryFoundException("No subCategory found with this name");
         return subCategoryMapper.modelToDtos(subCategories);
     }
 
