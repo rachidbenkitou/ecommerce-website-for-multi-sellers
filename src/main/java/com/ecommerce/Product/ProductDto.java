@@ -20,6 +20,6 @@ public class ProductDto
 	Integer productQuantity;
 	Float prodcutPrice;
 	List<PropertyDto> propertys;
-	SubCategoryDto SubCatergory;
+	SubCategoryDto subCatergory;
 
 }
