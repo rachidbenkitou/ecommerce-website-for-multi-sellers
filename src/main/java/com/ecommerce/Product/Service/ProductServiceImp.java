@@ -28,16 +28,16 @@ public class ProductServiceImp implements ProductService {
 	private SubCategoryRepository categoryRepository;
 	/**
 	 * Add Product to database
-	 * @param ProductDto Product information using for add Product
+	 * @param productDto Product information using for add Product
 	 * @return Product saving in database
 	 * @throws ProductNotFoundException id product alrealy existe or SubCategory not found
 	 */
 	@Override
 	public ProductDto AddProduct(ProductDto productDto) {
-	  if(ifExistProduct(productDto.getProductName())) throw new ProductAlreadyExistException("Product alrealy exist");
+	  //if(ifExistProduct(productDto.getProductName())) throw new ProductAlreadyExistException("Product alrealy exist");
 	  Product product=productMapper.dtoToProduct(productDto);
-	  SubCategory subCatgeory= categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()-> new RuntimeException("SubCategory not found"));
-	  product.setSubCatgeory(subCatgeory);
+	  //SubCategory subCatgeory= categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()-> new RuntimeException("SubCategory not found"));
+	  //product.setSubCatgeory(subCatgeory);
 	  return productMapper.productToDto(productRepository.save(product));
 	}
 	/**
