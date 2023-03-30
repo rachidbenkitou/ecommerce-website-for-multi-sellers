@@ -30,7 +30,7 @@ import com.ecommerce.Product.exceptions.ProductAlreadyExistException;
 import com.ecommerce.Product.exceptions.QuantityNotEnoughException;
 import com.ecommerce.subCategory.SubCategoryDto;
 import com.ecommerce.subCategory.SubCategoryRepository;
-import com.ecommerce.subCategory.SubCatgeory;
+import com.ecommerce.subCategory.SubCategory;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = EcommerceApplication.class)
@@ -53,12 +53,12 @@ class ProductServiceTest {
 	
 	private Product product1,product2,product3;
 	
-	private SubCatgeory subCatgeory;
+	private SubCategory subCatgeory;
 	
 	@BeforeEach
 	void SetUp() {
 		productService=new ProductServiceImp(productRepository, productMapper, subCategoryRepository);
-		subCatgeory=SubCatgeory.builder()
+		subCatgeory=SubCategory.builder()
 				.subCategoryName("SubCategory")
 				.build();
 		
@@ -85,13 +85,13 @@ class ProductServiceTest {
 //		subCategoryRepository.save(subCatgeory);
 //		productRepository.save(product2);
 //		productRepository.save(product3);
-		when(subCategoryRepository.save(any(SubCatgeory.class))).thenAnswer(new Answer<SubCatgeory>() {
+		when(subCategoryRepository.save(any(SubCategory.class))).thenAnswer(new Answer<SubCategory>() {
 
 			@Override
-			public SubCatgeory answer(InvocationOnMock invocation) throws Throwable {
+			public SubCategory answer(InvocationOnMock invocation) throws Throwable {
 				
-				return SubCatgeory.builder()
-						.id(UUID.randomUUID().toString())
+				return SubCategory.builder()
+						.subCategoryId(UUID.randomUUID().toString())
 						.subCategoryName(subCatgeory.getSubCategoryName())
 						.build();
 			}
@@ -124,13 +124,13 @@ class ProductServiceTest {
 						.build());
 			}});
 		
-		when(subCategoryRepository.findBySubCategoryName(any(String.class))).thenAnswer(new Answer<Optional<SubCatgeory>>() {
+		when(subCategoryRepository.findBySubCategoryName(any(String.class))).thenAnswer(new Answer<Optional<SubCategory>>() {
 
 			@Override
-			public Optional<SubCatgeory> answer(InvocationOnMock invocation) throws Throwable {
+			public Optional<SubCategory> answer(InvocationOnMock invocation) throws Throwable {
 				// TODO Auto-generated method stub
-				return Optional.of(SubCatgeory.builder()
-						.id(UUID.randomUUID().toString())
+				return Optional.of(SubCategory.builder()
+						.subCategoryId(UUID.randomUUID().toString())
 						.subCategoryName(invocation.getArgument(0))
 						.build()
 						);
@@ -183,7 +183,7 @@ class ProductServiceTest {
 
 	@Test
 	void testSellerProduct() {
-		Product product=productService.sellerProduct("Product 1", 10);
+		ProductDto product=productService.sellerProduct("Product 1", 10);
 		assertThat(product.getProductQuantity())
 		.isGreaterThan(0);
 
@@ -208,7 +208,7 @@ class ProductServiceTest {
 						.build())
 				.build();
 		
-		assertThat(productService.updateProduct(dto))
+		assertThat(productService.updateProduct("Product 3",dto))
 		.isNotNull()
 		.hasFieldOrPropertyWithValue("productQuantity",dto.getProductQuantity())
 		.hasFieldOrPropertyWithValue("productName",dto.getProductName())

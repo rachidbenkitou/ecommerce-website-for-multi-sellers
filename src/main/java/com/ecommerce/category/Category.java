@@ -1,6 +1,6 @@
 package com.ecommerce.category;
 
-import com.ecommerce.subCategory.SubCatgeory;
+import com.ecommerce.subCategory.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -19,5 +19,5 @@ public class Category implements Serializable {
     private String categoryId;
     @Column(unique = true)
     private String categoryName;
-    private List<SubCatgeory> subCatgeories= new ArrayList<>();
+    private List<SubCategory> subCatgeories= new ArrayList<>();
 }

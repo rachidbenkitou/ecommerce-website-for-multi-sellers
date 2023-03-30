@@ -1,12 +1,16 @@
 package com.ecommerce.subCategory;
 
-import java.util.Optional;
-
+import com.ecommerce.category.Category;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface SubCategoryRepository extends MongoRepository<SubCatgeory, String> {
-	
-	Optional<SubCatgeory> findBySubCategoryName(String subCategoryName);
-	
-	
+import java.util.List;
+import java.util.Optional;
+
+public interface SubCategoryRepository extends MongoRepository<SubCategory, String> {
+    boolean existsBySubCategoryName(String name);
+    void deleteSubCategoryBySubCategoryName(String SubCategoryName);
+    //List<SubCategory> findSuCategoriesBySuCategoryNameLikeIgnoreCase(String categoryName);
+    List<SubCategory> findSubCategoriesBySubCategoryNameLikeIgnoreCase(String categoryName);
+    Optional<SubCategory> findBySubCategoryName(String subCategoryName);
+
 }

@@ -14,7 +14,7 @@ import com.ecommerce.Product.exceptions.ProductAlreadyExistException;
 import com.ecommerce.Product.exceptions.ProductNotFoundException;
 import com.ecommerce.Product.exceptions.QuantityNotEnoughException;
 import com.ecommerce.subCategory.SubCategoryRepository;
-import com.ecommerce.subCategory.SubCatgeory;
+import com.ecommerce.subCategory.SubCategory;
 
 import lombok.AllArgsConstructor;
 
@@ -33,12 +33,12 @@ public class ProductServiceImp implements ProductService {
 	 * @throws ProductNotFoundException id product alrealy existe or SubCategory not found
 	 */
 	@Override
-	public Product AddProduct(ProductDto productDto) {
+	public ProductDto AddProduct(ProductDto productDto) {
 	  if(ifExistProduct(productDto.getProductName())) throw new ProductAlreadyExistException("Product alrealy exist");
 	  Product product=productMapper.dtoToProduct(productDto);
-	  SubCatgeory subCatgeory= categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()-> new RuntimeException("SubCategory not found"));
+	  SubCategory subCatgeory= categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()-> new RuntimeException("SubCategory not found"));
 	  product.setSubCatgeory(subCatgeory);
-	  return productRepository.save(product);
+	  return productMapper.productToDto(productRepository.save(product));
 	}
 	/**
 	 * delete Product from database by id
@@ -59,37 +59,37 @@ public class ProductServiceImp implements ProductService {
 	 * @return new Product 
 	 */
 	@Override
-	public Product sellerProduct(String nameProduct, Integer Quantityseller) {
+	public ProductDto sellerProduct(String nameProduct, Integer Quantityseller) {
 		Product product=productRepository.findByProductName(nameProduct).orElseThrow(()->new ProductNotFoundException("not found")); 
 		if(product.getProductQuantity()-Quantityseller<0) throw new QuantityNotEnoughException("quantity not suffisant");
 		product.setProductQuantity(product.getProductQuantity()-Quantityseller);
 		
-		return productRepository.save(product);
+		return productMapper.productToDto(productRepository.save(product));
 	}
 
 	@Override
-	public Product updateProduct(ProductDto productDto) {
+	public ProductDto updateProduct(String productName, ProductDto productDto) {
 		
 		
 		
 		Product productUpdated=productMapper.dtoToProduct(productDto);
 		
-		Product product =productRepository.findByProductName(productDto.getProductName()).orElseThrow(()->new ProductNotFoundException("not found")); 
+		Product product =productRepository.findByProductName(productName).orElseThrow(()->new ProductNotFoundException("not found")); 
 		if(product.getSubCatgeory().getSubCategoryName().equals(productDto.getSubCatergory().getSubCategoryName())) {
 			// TODO Exception Category not found
-			SubCatgeory catgeory=categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()->new RuntimeException("not found"));
+			SubCategory catgeory=categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()->new RuntimeException("not found"));
 			productUpdated.setSubCatgeory(catgeory);
 		}
 		productUpdated.setId(product.getId());
 		
-		return productRepository.save(productUpdated);
+		return productMapper.productToDto(productRepository.save(productUpdated));
 	}
 
 	@Override
 	public List<ProductDto> getProductByCategories(String subCategoryName) {
 		// TODO Exception Category not found
-		SubCatgeory subCatgeory= categoryRepository.findBySubCategoryName(subCategoryName).get();
-		return productMapper.productsToDtos(productRepository.findBySubCatgeoryId(subCatgeory.getId()).get());
+		SubCategory subCatgeory= categoryRepository.findBySubCategoryName(subCategoryName).get();
+		return productMapper.productsToDtos(productRepository.findBySubCatgeoryId(subCatgeory.getSubCategoryId()).get());
 	}
 
 	@Override

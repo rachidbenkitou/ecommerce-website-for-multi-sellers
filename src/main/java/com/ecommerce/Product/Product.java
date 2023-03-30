@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.ecommerce.subCategory.SubCatgeory;
+import com.ecommerce.subCategory.SubCategory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class Product {
 	private Integer productQuantity;
 	private Float prodcutPrice;
 	@DBRef
-	private SubCatgeory subCatgeory;
+	private SubCategory subCatgeory;
 
 //	private List<ProductProperty> productPropertyts;
 

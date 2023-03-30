@@ -1,6 +1,6 @@
 package com.ecommerce.category;
 
-import com.ecommerce.subCategory.SubCatgeory;
+import com.ecommerce.subCategory.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,5 +13,5 @@ import java.util.List;
 public class CategoryDto implements Serializable {
     private String categoryId;
     private String categoryName;
-    private List<SubCatgeory> subCatgeories= new ArrayList<>();
+    private List<SubCategory> subCatgeories= new ArrayList<>();
 }
