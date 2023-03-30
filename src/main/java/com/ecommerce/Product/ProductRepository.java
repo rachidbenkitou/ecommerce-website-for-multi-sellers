@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ProductRepository extends MongoRepository<Product,Integer>{
 
-	Optional<List<Product>> findBySubCatgeoryId(String subCategoryName);
+	Optional<List<Product>> findBySubCatgeorySubCategoryId(String subCategoryName);
 	Optional<Product> findByProductName(String productName);
 	Optional<Product> deleteByProductName(String productName);
 	

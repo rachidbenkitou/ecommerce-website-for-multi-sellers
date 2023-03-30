@@ -27,12 +27,12 @@ public class ProductController {
 
 	private final ProductService productService;
 	
-	@GetMapping("/name/{nameproduct}")
+	@GetMapping("/name/{nameProduct}")
     public ResponseEntity<ProductDto> getProductByName(@PathVariable String nameProduct) {
     	return new ResponseEntity<ProductDto>(productService.getProductByName(nameProduct),HttpStatus.OK);
     }
 	
-	@GetMapping("/subGategory/{subcategoryname}")
+	@GetMapping("/subGategory/{subCategoryName}")
 	public ResponseEntity<List<ProductDto>> getProductByCategories(@PathVariable String subCategoryName){
 		return new ResponseEntity<List<ProductDto>>(productService.getProductByCategories(subCategoryName),HttpStatus.OK);
 	}

@@ -89,7 +89,7 @@ public class ProductServiceImp implements ProductService {
 	public List<ProductDto> getProductByCategories(String subCategoryName) {
 		// TODO Exception Category not found
 		SubCategory subCatgeory= categoryRepository.findBySubCategoryName(subCategoryName).get();
-		return productMapper.productsToDtos(productRepository.findBySubCatgeoryId(subCatgeory.getSubCategoryId()).get());
+		return productMapper.productsToDtos(productRepository.findBySubCatgeorySubCategoryId(subCatgeory.getSubCategoryId()).get());
 	}
 
 	@Override

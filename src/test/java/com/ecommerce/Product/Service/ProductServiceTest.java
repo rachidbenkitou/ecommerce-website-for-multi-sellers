@@ -152,7 +152,7 @@ class ProductServiceTest {
 				.prodcutPrice(32.43f)
 				.productName("Product 5")
 				.productQuantity(32)
-				.SubCatergory(SubCategoryDto.builder()
+				.subCatergory(SubCategoryDto.builder()
 					.subCategoryName("SubCategory")
 						.build())
 				.build();
@@ -171,7 +171,7 @@ class ProductServiceTest {
 				.prodcutPrice(32.43f)
 				.productName("Product 3")
 				.productQuantity(32)
-				.SubCatergory(SubCategoryDto.builder()
+				.subCatergory(SubCategoryDto.builder()
 					.subCategoryName("SubCategory")
 						.build())
 				.build();
@@ -203,7 +203,7 @@ class ProductServiceTest {
 				.prodcutPrice(31.43f)
 				.productName("Product 3")
 				.productQuantity(37)
-				.SubCatergory(SubCategoryDto.builder()
+				.subCatergory(SubCategoryDto.builder()
 				.subCategoryName("SubCategory")
 						.build())
 				.build();
@@ -218,7 +218,7 @@ class ProductServiceTest {
 
 	@Test
 	void testGetProductByCategories() {
-		when(productRepository.findBySubCatgeoryId(any(String.class))).thenReturn( Optional.ofNullable(List.of(product1,product2,product3)));
+		when(productRepository.findBySubCatgeorySubCategoryId(any(String.class))).thenReturn( Optional.ofNullable(List.of(product1,product2,product3)));
 		assertThat(productService.getProductByCategories("SubCategory"))
 		.isNotNull()
 		.hasSize(3);
