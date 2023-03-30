@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
-@Builder
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class SubCategoryDto implements Serializable {
     private String subCategoryId;
     private String subCategoryName;

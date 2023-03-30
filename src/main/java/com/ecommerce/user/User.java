@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+//import javax.persistence.Inheritance;
+//import javax.persistence.InheritanceType;
 import java.io.Serializable;
 @Data
 @Document
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable {

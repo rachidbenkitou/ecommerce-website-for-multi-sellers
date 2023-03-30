@@ -4,6 +4,7 @@ import com.ecommerce.subCategory.SubCategory;
 import com.ecommerce.subCategory.SubCategoryDto;
 import com.ecommerce.subCategory.SubCategoryMapper;
 import com.ecommerce.subCategory.SubCategoryRepository;
+import com.ecommerce.subCategory.exception.NoSubCategoryFoundException;
 import com.ecommerce.subCategory.exception.SubCategoryAlreadyExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         // Retrieve all subCategories from the database as a list.
         List<SubCategory> subCategories=subCategoryRepository.findAll();
         // Convert the list of SubCategory objects to a list of SubCategoryDto objects and return it.
+        if (subCategories.isEmpty()) throw  new NoSubCategoryFoundException("SubCategory list is empty");
         return subCategoryMapper.modelToDtos(subCategories);
     }
 
@@ -41,6 +43,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         // Retrieve all subCategories by name from the database as a list.
         List<SubCategory> subCategories=subCategoryRepository.findSubCategoriesBySubCategoryNameLikeIgnoreCase(subCategoryName);
         // Convert the list of SubCategory objects to a list of SubCategoryDto objects and return it.
+        if (subCategories.isEmpty()) throw  new NoSubCategoryFoundException("No subCategory found with this name");
         return subCategoryMapper.modelToDtos(subCategories);
     }
 
@@ -58,6 +61,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
             throw new SubCategoryAlreadyExistException(String.format("The subCategory %s is already  exists.", subCategoryDto.getSubCategoryName()));
         return savedSubCategory(subCategoryDto);
     }
+
     /**
      * Update a subCategory in the database.
      *
@@ -79,10 +83,11 @@ public class SubCategoryServiceImpl implements SubCategoryService{
      * @param subCategoryName The name of subCategory that we will check if exists in the database.
      * @return If the subCategory exists, the function returns true, if not, it returns false.
      */
-    private boolean isSubCategoryExist(String subCategoryName){
+    public boolean isSubCategoryExist(String subCategoryName){
+        boolean resp=false;
         boolean isExistSubCategory=subCategoryRepository.existsBySubCategoryName(subCategoryName);
-        if(isExistSubCategory) return true;
-        else return false;
+        if(isExistSubCategory) resp=true;
+        return resp;
     }
     /**
      * save a subCategory in the database.

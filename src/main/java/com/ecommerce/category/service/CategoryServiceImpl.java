@@ -5,6 +5,7 @@ import com.ecommerce.category.CategoryDto;
 import com.ecommerce.category.CategoryMapper;
 import com.ecommerce.category.CategoryRepository;
 import com.ecommerce.category.exception.CategoryAlreadyExistException;
+import com.ecommerce.category.exception.NoCategoryFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService{
     public List<CategoryDto> getAllCategories() {
         // Retrieve all categories from the database as a list.
         List<Category> categories=categoryRepository.findAll();
+        if (categories.isEmpty()) throw  new NoCategoryFoundException("Category list is empty");
         // Convert the list of Category objects to a list of CategoryDto objects and return it.
         return categoryMapper.modelToDtos(categories);
     }
@@ -40,7 +42,8 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public List<CategoryDto> getCategoriesByName(String categoryName) {
         // Retrieve all categories by name from the database as a list.
-        List<Category> categories=categoryRepository.findCategoriesByCategoryName(categoryName);
+        List<Category> categories=categoryRepository.findCategoriesByCategoryNameLikeIgnoreCase(categoryName);
+        if (categories.isEmpty()) throw  new NoCategoryFoundException("No category found with this name");
         // Convert the list of Category objects to a list of CategoryDto objects and return it.
         return categoryMapper.modelToDtos(categories);
     }

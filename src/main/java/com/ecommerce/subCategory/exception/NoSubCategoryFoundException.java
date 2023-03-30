@@ -3,12 +3,14 @@ package com.ecommerce.subCategory.exception;
 import com.ecommerce.shared.ApiBasedException;
 import org.springframework.http.HttpStatus;
 
-public class SubCategoryAlreadyExistException extends ApiBasedException {
-    public SubCategoryAlreadyExistException(String message) {
+public class NoSubCategoryFoundException extends ApiBasedException {
+
+    public NoSubCategoryFoundException(String message) {
         super(message);
     }
+
     @Override
     public HttpStatus getStatusCode() {
-        return HttpStatus.CONFLICT;
+        return HttpStatus.NOT_FOUND;
     }
 }
