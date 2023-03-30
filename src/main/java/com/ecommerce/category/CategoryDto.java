@@ -17,6 +17,5 @@ import java.util.List;
 public class CategoryDto implements Serializable {
     private String categoryId;
     private String categoryName;
-    @DBRef
-    private List<SubCategory> subCatgeories= new ArrayList<>();
+    private List<SubCategory> subCatgeories;
 }

@@ -16,6 +16,6 @@ import java.io.Serializable;
 public class SubCategoryDto implements Serializable {
     private String subCategoryId;
     private String subCategoryName;
-    @DBRef
     private Category category;
+
 }

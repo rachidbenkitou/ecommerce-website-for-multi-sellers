@@ -20,5 +20,6 @@ public class SubCategory implements Serializable {
     @Id
     private String subCategoryId;
     private String subCategoryName;
+    @DBRef
     private Category category;
 }
