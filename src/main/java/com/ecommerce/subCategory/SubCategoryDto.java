@@ -17,5 +17,9 @@ public class SubCategoryDto implements Serializable {
     private String subCategoryId;
     private String subCategoryName;
     private Category category;
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> 3d777e24db8011f284d8443e45ae5a28e61373d3
