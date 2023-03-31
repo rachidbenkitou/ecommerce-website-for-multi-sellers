@@ -138,11 +138,7 @@ class ProductServiceTest {
 		
 	}
 	
-	@AfterEach
-	void after() {
-		productRepository.deleteAll();
-		subCategoryRepository.deleteAll();
-	}
+	
 	@Test
 	void testAddProduct() {
 		

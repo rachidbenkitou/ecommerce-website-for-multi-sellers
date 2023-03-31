@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -158,7 +159,7 @@ class PropertyServiceTest {
 	
 	void testGetPropertsProduct() {
 
-	 List<String> propertys=	propertyService.getPropertsProduct(product1.getProductName());
+	 Set<String> propertys=	propertyService.getPropertsProduct(product1.getProductName());
 	 
 	 assertNotNull(propertys);
 	 assertEquals(propertys, List.of("size","couleur"));
@@ -171,7 +172,7 @@ class PropertyServiceTest {
 	
 	void testGetValuesProperty() {
 		
-		List<String> values=	propertyService.getValuesProperty(property1.getPropertyName());
+		Set<String> values=	propertyService.getValuesProperty(property1.getPropertyName());
 		assertNotNull(values);
 		 assertEquals(List.of("24","red"),values );
 	}
@@ -208,7 +209,7 @@ class PropertyServiceTest {
 		assertNotNull(propertyDto);
 		assertEquals(propertyDto,PropertyDto.builder()
 				.idProdcutProperty(productProperty1.getId())
-				.namePropery(productProperty1.getProperty().getPropertyName())
+				.propertyName(productProperty1.getProperty().getPropertyName())
 				.value("35")
 				.build()
 				);

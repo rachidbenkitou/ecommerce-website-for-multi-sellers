@@ -2,6 +2,8 @@ package com.ecommerce.Property.service;
 
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -58,37 +60,37 @@ public class PropertyServiceImp implements PropertyService {
 	}
 
 	@Override
-	public List<String> getPropertsProduct(String nameProduct) {
+	public Set<String> getPropertsProduct(String nameProduct) {
 
 		Product product= productRepository.findByProductName(nameProduct)
 				.orElseThrow(()->new ProductNotFoundException("product not found"));
 		return productPropertyRepository.findByProductId(product.getId())
 				.orElseThrow(()-> new ProductNotHaveAnyProperty("Product not have any Property"))
 				.stream().map((p)->p.getProperty().getPropertyName())
-				.toList();
+				.collect(Collectors.toSet());
 	}
 
 	@Override
-	public List<String> getValuesProperty(String propertyName) {
+	public Set<String> getValuesProperty(String propertyName) {
 		Property property= propertyRepository.findByPropertyName(propertyName)
 				.orElseThrow(()->new ProductNotFoundException("product not found"));
 		return productPropertyRepository.findByPropertyPropertyId(property.getPropertyId())
 				.orElseThrow(()-> new ProductNotHaveAnyProperty("Product not have any Property"))
-				.stream().map((p)->p.getValue()).toList();
+				.stream().map((p)->p.getValue()).collect(Collectors.toSet());
 	}
 
 	@Override
 	public List<PropertyDto> addPropertyToProduct(PropertyRequest propertyRequest) {
 		
-		Property property=propertyRepository.findByPropertyName(propertyRequest.nameProperty()).orElse(
+		Property property=propertyRepository.findByPropertyName(propertyRequest.propertyName()).orElse(
 				propertyRepository.save(Property.builder()
-						.propertyName(propertyRequest.nameProperty())
+						.propertyName(propertyRequest.propertyName())
 						.build())
 				);
 		
-		if(!productRepository.existsByProductName(propertyRequest.nameProduct()))throw new ProductNotFoundException("product not found");
+		if(!productRepository.existsByProductName(propertyRequest.productName()))throw new ProductNotFoundException("product not found");
 		
-		Product product=productRepository.findByProductName(propertyRequest.nameProduct()).get();
+		Product product=productRepository.findByProductName(propertyRequest.productName()).get();
 		
 		return propertyRequest.values().stream().map((v)->{
 			ProductProperty productProperty=ProductProperty.builder()

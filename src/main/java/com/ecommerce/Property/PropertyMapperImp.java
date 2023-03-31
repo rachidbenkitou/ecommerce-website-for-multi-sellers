@@ -12,7 +12,7 @@ public class PropertyMapperImp implements PropertyMapper{
 				
 		PropertyDto dto= PropertyDto.builder()
 				.idProdcutProperty(productProperty.getId())
-				.namePropery(productProperty.getProperty().getPropertyName())
+				.propertyName(productProperty.getProperty().getPropertyName())
 				.value(productProperty.getValue())
 				.build();
 		return dto;
@@ -20,7 +20,7 @@ public class PropertyMapperImp implements PropertyMapper{
 
 	@Override
 	public List<PropertyDto> ProductproperstyToDtos(List<ProductProperty> productProperty) {
-		// TODO Auto-generated method stub
+		
 		return productProperty.stream().map((pP)->ProductpropertyToDto(pP)).toList();
 	}
 
