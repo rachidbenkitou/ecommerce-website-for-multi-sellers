@@ -21,6 +21,6 @@ public class Category implements Serializable {
     private String categoryId;
     @Field
     private String categoryName;
-    @DBRef
-    private List<SubCategory> subCatgeories;
+    //@DBRef
+    //private List<SubCategory> subCatgeories;
 }

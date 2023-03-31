@@ -14,5 +14,5 @@ import java.util.List;
 public class CategoryDto implements Serializable {
     private String categoryId;
     private String categoryName;
-    private List<SubCategory> subCatgeories;
+    //private List<SubCategory> subCatgeories;
 }
