@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.mongodb.assertions.Assertions.assertFalse;
-import static com.mongodb.internal.connection.tlschannel.util.Util.assertTrue;
 import static org.mockito.Mockito.*;
 
 
@@ -32,8 +31,6 @@ class SubCategoryServiceImplTest {
     @Mock private SubCategoryMapper subCategoryMapper;
     @InjectMocks
     private SubCategoryServiceImpl subCategoryService;
-
-
     private List<SubCategory> subCategories;
     private List<SubCategoryDto> subCategoriesDtos;
     private SubCategory subCategory2;

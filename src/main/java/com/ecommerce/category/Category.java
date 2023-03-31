@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,6 +21,6 @@ public class Category implements Serializable {
     private String categoryId;
     @Field
     private String categoryName;
-    @DBRef
-    private List<SubCategory> subCatgeories= new ArrayList<>();
+    //@DBRef
+    //private List<SubCategory> subCatgeories;
 }

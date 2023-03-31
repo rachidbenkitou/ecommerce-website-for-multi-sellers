@@ -18,6 +18,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
     private final SubCategoryRepository subCategoryRepository;
     private final SubCategoryMapper subCategoryMapper;
 
+
     /**
      * Retrieves all subCategories from the database and returns them as a list of SubCategoryDto objects.
      *
@@ -31,6 +32,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         if (subCategories.isEmpty()) throw  new NoSubCategoryFoundException("SubCategory list is empty");
         return subCategoryMapper.modelToDtos(subCategories);
     }
+
 
     /**
      * Retrieves subCategories by name from the database and returns them as a list of SubCategoryDto objects.
@@ -47,6 +49,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         return subCategoryMapper.modelToDtos(subCategories);
     }
 
+
     /**
      * Save a subCategory in the database.
      *
@@ -62,6 +65,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         return savedSubCategory(subCategoryDto);
     }
 
+
     /**
      * Update a subCategory in the database.
      *
@@ -73,10 +77,13 @@ public class SubCategoryServiceImpl implements SubCategoryService{
     public SubCategoryDto updateSubCategory(SubCategoryDto subCategoryDto) {
         return savedSubCategory(subCategoryDto);
     }
+
     @Override
     public void deleteSubCategoryByName(String subCategoryName) {
         subCategoryRepository.deleteSubCategoryBySubCategoryName(subCategoryName);
     }
+
+
     /**
      * Check if a subCategory exists in the database.
      *
@@ -89,6 +96,8 @@ public class SubCategoryServiceImpl implements SubCategoryService{
         if(isExistSubCategory) resp=true;
         return resp;
     }
+
+
     /**
      * save a subCategory in the database.
      *

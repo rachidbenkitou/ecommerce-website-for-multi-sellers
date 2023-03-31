@@ -1,6 +1,7 @@
 package com.ecommerce.category;
 
 import com.ecommerce.category.service.CategoryService;
+import com.ecommerce.subCategory.SubCategoryRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +72,17 @@ public class CategoryController {
     @DeleteMapping("/delete/{categoryName}")
     public ResponseEntity<?> deleteCategoryByName(@PathVariable String categoryName){
         categoryService.deleteCategoryByName(categoryName);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<?> deleteCategorAll(){
+        categoryRepository.deleteAll();
+        subCategoryRepository.deleteAll();
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

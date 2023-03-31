@@ -8,9 +8,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -72,4 +74,10 @@ public class SubCatgeoryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
+    @GetMapping("/find/subCategoryName/{categoryName}")
+    public ResponseEntity<List<SubCategory>> getSubCategoriesByName(@PathVariable String categoryName){
+        return new ResponseEntity<>(subCategoryRepository.findByCategoryCategoryId(categoryName), HttpStatus.OK);
+    }
 }
