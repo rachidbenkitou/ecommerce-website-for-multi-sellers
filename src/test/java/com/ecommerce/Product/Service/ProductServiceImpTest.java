@@ -105,15 +105,28 @@ class ProductServiceImpTest {
 			@Override
 			public Product answer(InvocationOnMock invocation) throws Throwable {
 				ProductDto productdto=invocation.getArgument(0);
-				return PProduct.builder()
-						.id(null)
+				return Product.builder()
 						.prodcutPrice(productdto.getProdcutPrice())
 						.productName(productdto.getProductName())
 						.productQuantity(productdto.getProductQuantity())
-						.build();)
+						
+						.build();
+				}
+			});
+			
+		when(productMapper.productToDto(any(Product.class))).thenAnswer(new Answer<ProductDto>() {
+
+			@Override
+			public ProductDto answer(InvocationOnMock invocation) throws Throwable {
+				ProductDto product=invocation.getArgument(0);
+				return ProductDto.builder()
+						.prodcutPrice(product.getProdcutPrice())
+						.productName(product.getProductName())
+						.productQuantity(product.getProductQuantity())
+						.build();
 				
 			}
-			});
+			});;	
 		
 		when(productRepository.save(any(Product.class))).thenAnswer(new Answer<Product>() {
 
