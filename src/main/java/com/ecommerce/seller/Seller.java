@@ -14,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Document
 public class Seller extends User {
-    private Stringg username;
-    private Stringg  description;
+    private Stringgg username;
+    private Stringgg  description;
     @ReadOnlyProperty
     private List<Product> products;
 
