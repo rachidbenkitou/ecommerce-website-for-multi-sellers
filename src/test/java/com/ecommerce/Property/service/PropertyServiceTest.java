@@ -9,14 +9,17 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,13 +36,12 @@ import com.ecommerce.Property.PropertyDto;
 import com.ecommerce.Property.PropertyMapper;
 import com.ecommerce.Property.PropertyRepository;
 import com.ecommerce.Property.PropertyRequest;
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = EcommerceApplication.class)
+@ExtendWith(MockitoExtension.class)
 class PropertyServiceTest {
 	
 //	private AutoCloseable autoCloseable;
 //	@Autowired
-	
+	@InjectMocks
 	private PropertyService propertyService;
 //	@Autowired
 	@Mock
@@ -158,7 +160,7 @@ class PropertyServiceTest {
 	
 	void testGetPropertsProduct() {
 
-	 List<String> propertys=	propertyService.getPropertsProduct(product1.getProductName());
+	 Set<String> propertys=	propertyService.getPropertsProduct(product1.getProductName());
 	 
 	 assertNotNull(propertys);
 	 assertEquals(propertys, List.of("size","couleur"));
@@ -171,7 +173,7 @@ class PropertyServiceTest {
 	
 	void testGetValuesProperty() {
 		
-		List<String> values=	propertyService.getValuesProperty(property1.getPropertyName());
+		Set<String> values=	propertyService.getValuesProperty(property1.getPropertyName());
 		assertNotNull(values);
 		 assertEquals(List.of("24","red"),values );
 	}
@@ -208,7 +210,7 @@ class PropertyServiceTest {
 		assertNotNull(propertyDto);
 		assertEquals(propertyDto,PropertyDto.builder()
 				.idProdcutProperty(productProperty1.getId())
-				.namePropery(productProperty1.getProperty().getPropertyName())
+				.propertyName(productProperty1.getProperty().getPropertyName())
 				.value("35")
 				.build()
 				);

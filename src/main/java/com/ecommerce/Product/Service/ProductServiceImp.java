@@ -14,6 +14,7 @@ import com.ecommerce.Product.exceptions.ProductAlreadyExistException;
 import com.ecommerce.Product.exceptions.ProductNotFoundException;
 import com.ecommerce.Product.exceptions.QuantityNotEnoughException;
 import com.ecommerce.subCategory.SubCategoryRepository;
+import com.ecommerce.subCategory.exception.NoSubCategoryFoundException;
 import com.ecommerce.subCategory.SubCategory;
 
 import lombok.AllArgsConstructor;
@@ -88,7 +89,7 @@ public class ProductServiceImp implements ProductService {
 	@Override
 	public List<ProductDto> getProductByCategories(String subCategoryName) {
 		// TODO Exception Category not found
-		SubCategory subCatgeory= categoryRepository.findBySubCategoryName(subCategoryName).get();
+		SubCategory subCatgeory= categoryRepository.findBySubCategoryName(subCategoryName).orElseThrow(()->new NoSubCategoryFoundException(subCategoryName+" not found"));
 		return productMapper.productsToDtos(productRepository.findBySubCatgeorySubCategoryId(subCatgeory.getSubCategoryId()).get());
 	}
 

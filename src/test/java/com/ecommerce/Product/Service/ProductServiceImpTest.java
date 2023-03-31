@@ -15,8 +15,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,32 +35,31 @@ import com.ecommerce.subCategory.SubCategoryDto;
 import com.ecommerce.subCategory.SubCategoryRepository;
 import com.ecommerce.subCategory.SubCategory;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = EcommerceApplication.class)
-class ProductServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ProductServiceImpTest {
 
 //	@Autowired
 	
-	private ProductService productService;
 	
 //	@Autowired
 	@Mock
 	private ProductRepository productRepository;
 	
-	@Autowired
+	@Mock
 	private ProductMapper productMapper;
 
 //	@Autowired
 	@Mock
 	private SubCategoryRepository subCategoryRepository;
-	
+	@InjectMocks
+	private ProductServiceImp productService;
 	private Product product1,product2,product3;
 	
 	private SubCategory subCatgeory;
 	
 	@BeforeEach
 	void SetUp() {
-		productService=new ProductServiceImp(productRepository, productMapper, subCategoryRepository);
+//		productService=new ProductServiceImp(productRepository, productMapper, subCategoryRepository);
 		subCatgeory=SubCategory.builder()
 				.subCategoryName("SubCategory")
 				.build();
@@ -99,8 +100,34 @@ class ProductServiceTest {
 		});
 
 		
+		when(productMapper.dtoToProduct(any(ProductDto.class))).thenAnswer(new Answer<Product>() {
+
+			@Override
+			public Product answer(InvocationOnMock invocation) throws Throwable {
+				ProductDto productdto=invocation.getArgument(0);
+				return Product.builder()
+						.prodcutPrice(productdto.getProdcutPrice())
+						.productName(productdto.getProductName())
+						.productQuantity(productdto.getProductQuantity())
+						
+						.build();
+				}
+			});
+			
+		when(productMapper.productToDto(any(Product.class))).thenAnswer(new Answer<ProductDto>() {
+
+			@Override
+			public ProductDto answer(InvocationOnMock invocation) throws Throwable {
+				ProductDto product=invocation.getArgument(0);
+				return ProductDto.builder()
+						.prodcutPrice(product.getProdcutPrice())
+						.productName(product.getProductName())
+						.productQuantity(product.getProductQuantity())
+						.build();
+				
+			}
+			});;	
 		
-		;
 		when(productRepository.save(any(Product.class))).thenAnswer(new Answer<Product>() {
 
 			@Override
@@ -139,11 +166,7 @@ class ProductServiceTest {
 		
 	}
 	
-	@AfterEach
-	void after() {
-		productRepository.deleteAll();
-		subCategoryRepository.deleteAll();
-	}
+	
 	@Test
 	void testAddProduct() {
 		
