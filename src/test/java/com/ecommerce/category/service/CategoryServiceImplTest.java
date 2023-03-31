@@ -68,7 +68,7 @@ class CategoryServiceImplTest {
         assertCategoryDtoList(categoryService.getCategoriesByName(categoryName));
     }
     @Test
-    void shouldThrowsNoCategoryFoundExceptionIfListOfCategoriesIsEmpty() {
+    void shouldThrowsNoCategoryNotFoundExceptionIfListOfCategoriesIsEmpty() {
         // Mock the category repository to return an empty list of categories
         when(categoryRepository.findAll()).thenReturn(Collections.emptyList());
 
