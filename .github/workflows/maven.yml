@@ -18,16 +18,12 @@ jobs:
           distribution: 'corretto'
           java-version: 17
 
-      - name: Build the application
-        run: mvn package
-
       - name: Unit Tests
         run: mvn -B test --file pom.xml
 
-      - name: Commit changes
-        if: ${{ job.status == success() }}
+      - name: Build the application
         run: |
-          git config --global user.email "rachidbenkitou2021@gmail.com"
-          git config --global user.name "Your Name"
-          git commit -am "Build successful"
-          git push
+          mvn clean
+          mvn -B package --file pom.xml
+            
+          
