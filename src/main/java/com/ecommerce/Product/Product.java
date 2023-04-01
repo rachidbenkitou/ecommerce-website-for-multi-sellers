@@ -23,7 +23,7 @@ public class Product {
 	@Id
 	private String id;
 	@Indexed(unique=true)
-	private StSring productName;
+	private String productName;
 	private Integer productQuantity;
 	private Float prodcutPrice;
 	@DBRef
