@@ -3,6 +3,7 @@ package com.ecommerce.Property.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -37,16 +38,16 @@ import com.ecommerce.Property.PropertyMapper;
 import com.ecommerce.Property.PropertyRepository;
 import com.ecommerce.Property.PropertyRequest;
 @ExtendWith(MockitoExtension.class)
-class PropertyServiceTest {
+class PropertyServiceImpTest {
 	
 //	private AutoCloseable autoCloseable;
 //	@Autowired
 	@InjectMocks
-	private PropertyService propertyService;
+	private PropertyServiceImp propertyService;
 //	@Autowired
 	@Mock
 	private ProductRepository productRepository;
-	@Autowired
+	@Mock
 	private PropertyMapper  mapper;
 //	@Autowired
 	@Mock
@@ -67,7 +68,7 @@ class PropertyServiceTest {
 	void SetUp(){
 		
 //		autoCloseable = MockitoAnnotations.openMocks(this);
-		propertyService= new PropertyServiceImp(productRepository, mapper, productPropertyRepository, propertyRepository);
+//		propertyService= new PropertyServiceImp(productRepository, mapper, productPropertyRepository, propertyRepository);
 		
 		
 		property1=Property.builder()
@@ -102,17 +103,46 @@ class PropertyServiceTest {
 				.property(property2)
 				.value("red")
 				.build();
+
+		}
+
+	@Test
+	void testGetPropertysValues() {
+		Random random= new  Random();
+		when(productPropertyRepository.findByProductId(any(String.class))).thenReturn(Optional.of(List.of(productProperty1,productProperty2)));
+		when(productRepository.findByProductName(any(String.class))).then(new Answer<Optional<Product>>() {
+
+				@Override
+				public Optional<Product> answer(InvocationOnMock invocation) throws Throwable {
+					
+					return Optional.of(Product.builder()
+							.id(UUID.randomUUID().toString())
+							.prodcutPrice(random.nextFloat())
+							.productName(invocation.getArgument(0))
+							.productQuantity(random.nextInt(50)+10)
+							.build());
+				}});
+		when(mapper.ProductproperstyToDtos(anyList())).thenAnswer(new Answer<List<PropertyDto>>() {
+
+			@Override
+			public List<PropertyDto> answer(InvocationOnMock invocation) throws Throwable {
+				List<ProductProperty> productProperties=invocation.getArgument(0);
+				return productProperties.stream().map((productProperty)->PropertyDto.builder()
+							.idProdcutProperty(productProperty.getId())
+							.propertyName(productProperty.getProperty().getPropertyName())
+							.value(productProperty.getValue())
+							.build()).toList();
+			}
+			
+		});			
+		assertThat(propertyService.getPropertysAndValues(product1.getProductName()))
+		.isNotNull()
+		.hasSize(2);
 		
-//		productRepository.save(product1);
-//		productRepository.save(product2);
-//		productRepository.save(product3);
-//		propertyRepository.save(property1);
-//		propertyRepository.save(property2);
-//		propertyRepository.save(property3);
-//		productProperty1=productPropertyRepository.save(productProperty1);
-//		productPropertyRepository.save(productProperty2);
-//		productPropertyRepository.save(productProperty3);
-//		
+	}
+
+	@Test
+	void testGetPropertsProduct() {
 		Random random= new  Random();
 		when(productRepository.findByProductName(any(String.class))).then(new Answer<Optional<Product>>() {
 
@@ -126,61 +156,47 @@ class PropertyServiceTest {
 						.productQuantity(random.nextInt(50)+10)
 						.build());
 			}});
-		
-		
 		when(productPropertyRepository.findByProductId(any(String.class))).thenReturn(Optional.of(List.of(productProperty1,productProperty2)));
-		when(propertyRepository.findByPropertyName(anyString())).thenReturn(Optional.of(property1) );
-		when(productPropertyRepository.save(any(ProductProperty.class))).thenReturn(productProperty1);
-		when(productPropertyRepository.findById(anyString())).thenReturn(Optional.of(productProperty1) );
-//		when(productPropertyRepository.deleteByProductAndProperty(product1,property1))
-//		productPropertyRepository.deleteById();
 		
-		when(productPropertyRepository.findByPropertyPropertyId(anyString())).thenReturn(Optional.of(List.of(productProperty1,productProperty2)));
-	}
-	
-	@AfterEach
-	void tearDown() throws Exception {
-		
-	}
-
-	
-
-	@Test
-	void testGetPropertysValues() {
-		
-		List<?> productPropertyList=  propertyService.getPropertysAndValues(product1.getProductName());
-		
-		assertNotNull(productPropertyList);
-		assertTrue(productPropertyList.size()==2);
-		
-		
-	}
-
-	@Test
-	
-	void testGetPropertsProduct() {
-
 	 Set<String> propertys=	propertyService.getPropertsProduct(product1.getProductName());
 	 
 	 assertNotNull(propertys);
-	 assertEquals(propertys, List.of("size","couleur"));
+	 assertEquals(propertys, Set.of("size","couleur"));
 	 
 	 
 		
 	}
 
 	@Test
-	
 	void testGetValuesProperty() {
-		
+		when(propertyRepository.findByPropertyName(anyString())).thenReturn(Optional.of(property1) );
+		when(productPropertyRepository.findByPropertyPropertyId(anyString())).thenReturn(Optional.of(List.of(productProperty1,productProperty2)));
+	    
 		Set<String> values=	propertyService.getValuesProperty(property1.getPropertyName());
 		assertNotNull(values);
-		 assertEquals(List.of("24","red"),values );
+		 assertEquals(Set.of("red","24"),values );
 	}
 
 	@Test
 	void testAddPropertyToProduct() {
+		Random random= new  Random();
 		when(productRepository.existsByProductName("Product 1")).thenReturn(true);
+		when(propertyRepository.findByPropertyName(anyString())).thenReturn(Optional.of(property1) );
+		when(productPropertyRepository.save(any(ProductProperty.class))).thenReturn(productProperty1);
+		when(productRepository.findByProductName(any(String.class))).then(new Answer<Optional<Product>>() {
+
+			@Override
+			public Optional<Product> answer(InvocationOnMock invocation) throws Throwable {
+				
+				return Optional.of(Product.builder()
+						.id(UUID.randomUUID().toString())
+						.prodcutPrice(random.nextFloat())
+						.productName(invocation.getArgument(0))
+						.productQuantity(random.nextInt(50)+10)
+						.build());
+			}});
+	    
+		
 		List<PropertyDto> productProperty= propertyService.addPropertyToProduct(new PropertyRequest(
 			    "Product 1",
 				"point",
@@ -194,6 +210,7 @@ class PropertyServiceTest {
 	}
 	
 	void testAddPropertyToProductNotFound() {
+		
 		when(productRepository.existsByProductName("Product 5")).thenReturn(false);
 		assertThrows(ProductNotFoundException.class, ()->{
 			propertyService.addPropertyToProduct(new PropertyRequest(
@@ -206,6 +223,23 @@ class PropertyServiceTest {
 
 	@Test
 	void testUpdatePropertyProduct() {
+		when(productPropertyRepository.findById(anyString())).thenReturn(Optional.of(productProperty1) );		
+		when(mapper.ProductpropertyToDto(any(ProductProperty.class))).thenAnswer(new Answer<PropertyDto>() {
+
+			@Override
+			public PropertyDto answer(InvocationOnMock invocation) throws Throwable {
+				ProductProperty productProperty=invocation.getArgument(0);
+				PropertyDto dto= PropertyDto.builder()
+						.idProdcutProperty(productProperty.getId())
+						.propertyName(productProperty.getProperty().getPropertyName())
+						.value(productProperty.getValue())
+						.build();
+				return dto;
+			}
+	    	
+	    });
+		when(productPropertyRepository.save(any(ProductProperty.class))).thenReturn(productProperty1);
+
 		PropertyDto  propertyDto= propertyService.updatePropertyProduct(productProperty1.getId(), "35");
 		assertNotNull(propertyDto);
 		assertEquals(propertyDto,PropertyDto.builder()
@@ -219,6 +253,21 @@ class PropertyServiceTest {
 
 	@Test
 	void testDeletePropertyFromProduct() {
+		Random random= new  Random();
+
+		when(propertyRepository.findByPropertyName(anyString())).thenReturn(Optional.of(property1) );
+		when(productRepository.findByProductName(any(String.class))).then(new Answer<Optional<Product>>() {
+
+			@Override
+			public Optional<Product> answer(InvocationOnMock invocation) throws Throwable {
+				
+				return Optional.of(Product.builder()
+						.id(UUID.randomUUID().toString())
+						.prodcutPrice(random.nextFloat())
+						.productName(invocation.getArgument(0))
+						.productQuantity(random.nextInt(50)+10)
+						.build());
+			}});
 		when(productPropertyRepository.findByProductId(any(String.class))).thenReturn(Optional.of(List.of(productProperty1)));
 
 		propertyService.deletePropertyFromProduct("size","Product 1");
@@ -228,7 +277,20 @@ class PropertyServiceTest {
 
 	@Test
 	void testDeleteteValueFromProcutProperty() {
+		Random random= new Random();
 		when(productPropertyRepository.findByProductId(any(String.class))).thenReturn(Optional.of(List.of(productProperty1)));
+		when(productRepository.findByProductName(any(String.class))).then(new Answer<Optional<Product>>() {
+
+			@Override
+			public Optional<Product> answer(InvocationOnMock invocation) throws Throwable {
+				
+				return Optional.of(Product.builder()
+						.id(UUID.randomUUID().toString())
+						.prodcutPrice(random.nextFloat())
+						.productName(invocation.getArgument(0))
+						.productQuantity(random.nextInt(50)+10)
+						.build());
+			}});
 		propertyService.deleteteValueFromProcutProperty(productProperty1.getId());
 		assertThat(propertyService.getPropertsProduct(product1.getProductName())).hasSize(1);
 

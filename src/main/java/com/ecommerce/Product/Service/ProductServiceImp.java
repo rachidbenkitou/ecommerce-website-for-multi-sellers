@@ -35,7 +35,7 @@ public class ProductServiceImp implements ProductService {
 	 */
 	@Override
 	public ProductDto AddProduct(ProductDto productDto) {
-	  //if(ifExistProduct(productDto.getProductName())) throw new ProductAlreadyExistException("Product alrealy exist");
+	  if(ifExistProduct(productDto.getProductName())) throw new ProductAlreadyExistException("Product alrealy exist");
 	  Product product=productMapper.dtoToProduct(productDto);
 	  //SubCategory subCatgeory= categoryRepository.findBySubCategoryName(productDto.getSubCatergory().getSubCategoryName()).orElseThrow(()-> new RuntimeException("SubCategory not found"));
 	  //product.setSubCatgeory(subCatgeory);

@@ -34,8 +34,7 @@ public class PropertyServiceImp implements PropertyService {
 	private ProductPropertyRepository productPropertyRepository;
 	
 	private PropertyRepository propertyRepository;
-	
-	
+
 	public PropertyServiceImp(ProductRepository productRepository, 
 			PropertyMapper propertyMapper,
 			ProductPropertyRepository productPropertyRepository,
@@ -50,10 +49,6 @@ public class PropertyServiceImp implements PropertyService {
 
 	@Override
 	public List<PropertyDto> getPropertysAndValues(String nameProduct) {
-		
-
-		
-		
 		Product product=productRepository.findByProductName(nameProduct).orElseThrow(()->new ProductNotFoundException("product not found"));
 		return propertyMapper.ProductproperstyToDtos(productPropertyRepository.findByProductId(product.getId())
 				.orElseThrow(()-> new ProductNotHaveAnyProperty("Product not have any Property")));
