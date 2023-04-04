@@ -49,7 +49,7 @@ public class SellerServiceImplement implements  SellerService{
      */
     @Override
     public SellerDto saveSeller(SellerDto sellerDto) {
-        Optional<Seller> existingSeller = sellerRepository.findByUsername(sellerDto.getUsername());
+        Optional<Seller> existingSeller =sellerRepository.findByEmail(sellerDto.getEmail());
         if(existingSeller.isPresent()) throw new SellerAlreadyExistsException("Seller Already Exists");
         return addSeller(sellerDto);
     }

@@ -1,23 +1,16 @@
 package com.ecommerce.seller;
 
 import com.ecommerce.Product.Product;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ecommerce.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.management.relation.Role;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class SellerDto {
-    private String  username;
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String city;
+public class SellerDto extends UserDto implements Serializable {
     private String  description;
     private List<Product> products;
 

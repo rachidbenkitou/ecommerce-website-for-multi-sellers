@@ -8,8 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface ClientRepository extends MongoRepository<Client, String> {
-
     List<Client> findByFirstName (String name);
-    Optional<Client> findByUsername (String name);
-
+    Optional<Client> findByEmail(String email);
 }

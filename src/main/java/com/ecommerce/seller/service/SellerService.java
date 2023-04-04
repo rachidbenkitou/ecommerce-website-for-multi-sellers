@@ -1,6 +1,5 @@
 package com.ecommerce.seller.service;
 
-import com.ecommerce.client.ClientDto;
 import com.ecommerce.seller.SellerDto;
 
 import java.util.List;

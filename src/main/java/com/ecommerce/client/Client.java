@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client extends User implements Serializable {
-   private String username;
    @DBRef
    @ReadOnlyProperty
    private List<Order> orders = new ArrayList<>();

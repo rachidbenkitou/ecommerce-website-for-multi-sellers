@@ -18,7 +18,7 @@ public class OrderServiceImplement implements OrderService{
     @Override
     public List<OrderDto> listOrder() {
         List<Order> orderList = orderRepository.findAll();
-        if(orderList == null){
+        if(orderList.isEmpty()){
              throw new OrderNotFoundException("No order is found");
         }
 
