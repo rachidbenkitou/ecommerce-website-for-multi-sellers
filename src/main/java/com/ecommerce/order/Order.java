@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Date;
 
 @Data
@@ -17,4 +19,6 @@ public class Order {
     @Id
     private long orderId;
     private Date date;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 }

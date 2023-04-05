@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/manger")
+@RequestMapping("/manager")
 @RequiredArgsConstructor
 @Tag(name="Category Controller")
 public class ManagerController {
-    /*
+
     private final ManagerService managerService;
     @Operation(summary = "Find the entire managers", description = "This method allows you to find all managers and returns a list of ManagerDto objects.")
     @ApiResponses(value = {
@@ -73,7 +73,5 @@ public class ManagerController {
         managerService.deleteManagerByEmail(managerEmail);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-     */
 
 }

@@ -1,17 +1,25 @@
 package com.ecommerce.manager.service;
 
+import com.ecommerce.manager.Manager;
+import com.ecommerce.manager.ManagerDto;
+import com.ecommerce.manager.ManagerMapper;
+import com.ecommerce.manager.ManagerRepository;
+import com.ecommerce.manager.exception.ManagerAlreadyExistException;
+import com.ecommerce.manager.exception.NoManagerFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class ManagerServiceImpl implements ManagerService{
 
-    //private final ManagerRepository managerRepository;
-    //private final ManagerMapper managerMapper;
-/*
+    private final ManagerRepository managerRepository;
+    private final ManagerMapper managerMapper;
+
     @Override
     public List<ManagerDto> getAllMangers() {
         // Retrieve all managers from the database as a list.
@@ -52,7 +60,7 @@ public class ManagerServiceImpl implements ManagerService{
      * @return If the manager exists, the function returns true, if not, it returns false.
      */
 
-    /*
+
     private boolean isManagerExist(String managerEmail){
         boolean isExistManager=managerRepository.existsManagerByEmail(managerEmail);
         if(isExistManager) return true;
@@ -65,11 +73,9 @@ public class ManagerServiceImpl implements ManagerService{
      * @return the manager that we just saved in the database.
      */
 
-    /*
+
     public ManagerDto savedManager(ManagerDto managerDto){
         return managerMapper.modelToDto(managerRepository.save(managerMapper.dtoToModel(managerDto)));
     }
-
-     */
 
 }

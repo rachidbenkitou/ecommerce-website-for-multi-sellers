@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-
 
 @AllArgsConstructor
 @Data

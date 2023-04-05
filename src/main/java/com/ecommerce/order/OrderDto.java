@@ -11,4 +11,6 @@ import java.util.Date;
 public class OrderDto {
     private long orderId;
     private Date date;
+    private OrderStatus orderStatus;
+
 }
