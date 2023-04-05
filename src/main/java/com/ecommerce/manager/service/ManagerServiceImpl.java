@@ -72,8 +72,6 @@ public class ManagerServiceImpl implements ManagerService{
      * @param managerDto The  manager that we will save in the database.
      * @return the manager that we just saved in the database.
      */
-
-
     public ManagerDto savedManager(ManagerDto managerDto){
         return managerMapper.modelToDto(managerRepository.save(managerMapper.dtoToModel(managerDto)));
     }

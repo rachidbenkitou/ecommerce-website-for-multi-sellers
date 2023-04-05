@@ -40,7 +40,7 @@ public class RoleServiceImpl implements RoleService{
     public RoleDto saveRole(RoleDto roleDto) {
         // We first check whether the role already exists in the database. If it exists, a RoleAlreadyExistException will be thrown.
         if(isRoleExist(roleDto.getRoleName()))
-            throw new RoleAlreadyExistException(String.format("The manager %s is already  exists.", roleDto.getRoleName()));
+            throw new RoleAlreadyExistException(String.format("The role %s is already  exists.", roleDto.getRoleName()));
         return savedRole(roleDto);
     }
     @Override
